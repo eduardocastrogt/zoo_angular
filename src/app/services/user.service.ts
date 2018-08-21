@@ -3,6 +3,7 @@ import { Http, Headers} from '@angular/http';
 import { GLOBAL } from './global';
 import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Observable' 
+import { jsonpFactory } from '@angular/http/src/http_module';
 
 
 @Injectable()
@@ -22,6 +23,23 @@ export class UserService {
 
         return this._http.post(
             this.url + 'login',
+            params,
+            {
+                headers: headers
+            }
+        ).map(
+            res => res.json()
+        );
+    }
+
+    register(user){
+        let params = JSON.stringify(user);
+        let headers = new Headers({
+            'Content-Type': 'application/json'
+        }); 
+
+        return this._http.post(
+            this.url + 'register',
             params,
             {
                 headers: headers
